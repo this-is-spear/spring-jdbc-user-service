@@ -40,7 +40,7 @@ class JDBCUserRepositoryTest {
     @DisplayName("유저 조회 테스트")
     public void findOneUser() {
         SearchedUser searchedUser = jdbcUserRepository.findById(seq);
-        Assertions.assertThat(user.getEmail()).isEqualTo(searchedUser.getEmail());
+        Assertions.assertThat(user.getPrincipal()).isEqualTo(searchedUser.getEmail());
     }
 
     @Test

@@ -7,32 +7,40 @@ import java.util.InputMismatchException;
 import java.util.regex.Pattern;
 
 public class SignUpUser {
-    private String email;
-    private String pwd;
+    private String principal;
+    private String credentials;
 
-    public SignUpUser(String email, String password) {
-        String email_pattern = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
-        String pwd_pattern = "^[ㄱ-ㅎ가-힣a-zA-Z0-9]*$";
+    public SignUpUser(String principal, String credentials) {
+        checkValidation(principal, credentials);
+        setPrincipal(principal);
+        setCredentials(credentials);
+    }
 
-        if (!Pattern.matches(email_pattern, email) && Pattern.matches(pwd_pattern, password)) {
+    private void checkValidation(String principal, String credentials) {
+        if (!Pattern.matches(SignPattern.PRINCIPAL_PATTERN, principal) && Pattern.matches(SignPattern.CREDENTIALS_PATTERN, credentials)) {
             throw new InputMismatchException("아이디는 이메일 형식이어야하고, 패스워드에는 특수문자가 존재해야 합니다.");
         }
+    }
 
-        if (!Pattern.matches(email_pattern, email)) {
+    private void setPrincipal(String principal) {
+        if (!Pattern.matches(SignPattern.PRINCIPAL_PATTERN, principal)) {
             throw new ExceptionsToEmailProcessing("이메일 형식이 아닙니다.");
         }
-        this.email = email;
-        if (Pattern.matches(pwd_pattern, password)){
+        this.principal = principal;
+    }
+
+    private void setCredentials(String credentials) {
+        if (Pattern.matches(SignPattern.CREDENTIALS_PATTERN, credentials)){
             throw new ExceptionsToPasswordProcessing("패스워드에 특수문자가 들어가야 합니다.");
         }
-        this.pwd = password;
+        this.credentials = credentials;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPrincipal() {
+        return principal;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getCredentials() {
+        return credentials;
     }
 }
